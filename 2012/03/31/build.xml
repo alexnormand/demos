@@ -13,7 +13,7 @@
         <property name="src.css.dir" value="${basedir}/css"/>
 	<!-- Server side source code-->
         <property name="src.serverside.dir" value="${basedir}/get"/>
-        <!-- Prefirx URL -->
+        <!-- Prefixr URL -->
         <property name="prefixr.url" value="http://prefixr.com/api/index.php" />	
         <!--Output dir-->
         <property name="build.dir" value="../build"/>
