@@ -11,44 +11,35 @@
 
 </head>
 <body>
-  <!--[if IE]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-
-  <header>
-
-  </header>
-  <div role="main" id="main">
-    
+  <!--[if lt IE 9]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+  
+  <div role="main" id="main">    
     <input type="text" placeholder="Search for a movie..." required />
     <div class="button_wrapper">         
-    <button class="button">Submit!</button>
-    <div id="result">
+       <button class="button">Submit!</button>
     </div>
-    </div>    
-
+    <div id="result"></div>    
   </div>
-  <footer>
-  </footer>
-
 <script>
 var imdb =  (function() {
 
     function makeUrlRequest(params) {
-	var url = "http://www.imdbapi.com/";
-	for (name in params) {
-	    if (url.indexOf("?") > -1) {
-		url += "&";
-	    } else {
-		url += "?";
-	    }
-	    url += encodeURIComponent(name) + "=" + encodeURIComponent(params[name]);
-	}
-	return url;
+        var url = "http://www.imdbapi.com/";
+        for (var name in params) {
+           if (url.indexOf("?") > -1) {
+               url += "&";
+           } else {
+               url += "?";
+           }
+           url += encodeURIComponent(name) + "=" + encodeURIComponent(params[name]);
+        }
+        return url;
     }
 
     function processResults(json) {
-	var ul     = document.createElement("ul"),
-      	    img    = document.createElement("img"),
-	    result = document.getElementById("result");
+        var ul     = document.createElement("ul"),
+            img    = document.createElement("img"),
+            result = document.getElementById("result");
 
 	while (result.lastChild) 
 	    result.removeChild(result.lastChild);			
@@ -56,7 +47,7 @@ var imdb =  (function() {
    	img.src = json['Poster'];
 	ul.appendChild(img);
 			
-	for(name in json) {
+	for(var name in json) {
 	    if( json.hasOwnProperty(name) && name !== "Poster" ) {
 		var li = document.createElement("li");
 		li.textContent = name + ": " + json[name];
