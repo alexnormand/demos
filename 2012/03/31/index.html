@@ -1,0 +1,111 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="http://fonts.googleapis.com/css?family=Calligraffitti" rel="stylesheet">
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+</head>
+<body>
+  <!--[if IE]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+
+  <header>
+
+  </header>
+  <div role="main" id="main">
+    
+    <input type="text" placeholder="Search for a movie..." required></input>    
+    <div class="button_wrapper">         
+    <button class="button">Submit!</button>
+    <div id="result">
+    </div>
+    </div>    
+
+  </div>
+  <footer>
+  </footer>
+
+<script>
+var imdb =  (function() {
+
+    function makeUrlRequest(params) {
+	var url = "http://www.imdbapi.com/";
+	for (name in params) {
+	    if (url.indexOf("?") > -1) {
+		url += "&";
+	    } else {
+		url += "?";
+	    }
+	    url += encodeURIComponent(name) + "=" + encodeURIComponent(params[name]);
+	}
+	return url;
+    }
+
+    function processResults(json) {
+	var ul     = document.createElement("ul"),
+      	    img    = document.createElement("img"),
+	    result = document.getElementById("result");
+
+	while (result.lastChild) 
+	    result.removeChild(result.lastChild);			
+	
+   	img.src = json['Poster'];
+	ul.appendChild(img);
+			
+	for(name in json) {
+	    if( json.hasOwnProperty(name) && name !== "Poster" ) {
+		var li = document.createElement("li");
+		li.textContent = name + ": " + json[name];
+		ul.appendChild(li);
+	    }
+	}
+	result.appendChild(ul);	      	
+    }
+
+    function submitRequest(query) {
+	var params = {
+	    "t": query,
+	    "callback": "imdb.processResults",
+	    "tomatoes": "true"
+	},
+	result = document.getElementById("result"),
+	p      = document.createElement("progress"),
+	s      = document.createElement("script");
+
+	s.src = makeUrlRequest(params); 
+	document.body.appendChild(s);
+
+	while (result.lastChild) 
+	    result.removeChild(result.lastChild);
+
+	result.appendChild(p);
+    }
+
+    return {
+	submitRequest: submitRequest,
+	processResults: processResults
+    };
+})();
+  
+
+document.querySelector("input").addEventListener("keypress", function(e) {
+    if( e.keyCode === 13 && this.value !== "" ) 
+	imdb.submitRequest(this.value);
+
+}, false);
+
+document.querySelector(".button").addEventListener("click", function(e) {
+    var value = document.querySelector("input").value;
+
+    if( value !== "" )
+	imdb.submitRequest(value);
+
+}, false);
+
+</script>
+</body>
+</html>
