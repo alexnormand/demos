@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Color Theme</title>
+	<link rel="stylesheet" type="text/css" href="/css/ui-lightness/jquery-ui-1.8.24.custom.css">
+	<style>
+		.box {
+			height: 200px;
+			width: 400px;
+			background: #EEE;
+			position: relative;
+		}
+
+		#controls {
+			border:	1px dashed #333;
+			padding: 0 20px 20px;
+			position: absolute;
+			top: 20px;
+			right: 20px;
+		}
+	</style>
+</head>
+<body>
+
+
+<div id="controls">
+
+	<h3>Pick a Color</h3>
+
+	<label>Box #1</label>
+	<input type="color" value="#ECDFB9" class="one"></input>
+	<input></input>
+	<br>
+
+
+	<label>Box #2</label>
+	<input type="color" value="#58867A" class="two"></input>
+	<input></input>
+	<br>
+
+
+	<label>Box #3</label>
+	<input type="color" value="#DE126C" class="three"></input>
+	<input></input>
+	<br>
+</div>
+
+
+<div id="one" class="box"></div>
+<div id="two" class="box"></div>
+<div id="three"class="box"></div>
+
+
+
+
+<script src="js/jquery-1.8.2.min.js"></script>
+<script src="js/jquery-ui-1.8.24.custom.min.js"></script>
+
+<script>
+
+$(function() {
+
+
+	var getRandomInt = function(min, max) {
+	    return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+
+	$('.box').each(function(i){
+
+		var $this      = $(this),
+		     boxHeight = $this.css('height');
+
+		$this.css('left', getRandomInt(0, 500));
+		$this.css('top', getRandomInt((i-1) * boxHeight, 100));
+		$this.css('background-color', $('[type=color]').eq(i).val());
+
+	});
+
+	$('.box').draggable().resizable();
+
+	$('[type=color]').on('change', function(event) {
+
+		var $this = $(this),
+			boxId = $this.attr('class');
+
+
+		$(this).next().val(this.value);
+
+		$('#' + boxId).css('background-color', this.value);
+
+	});
+});
+
+
+</script>
+
+
+</body>
+</html>
